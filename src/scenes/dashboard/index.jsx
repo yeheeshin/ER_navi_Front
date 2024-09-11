@@ -2,10 +2,10 @@ import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
+import EmergencyRecordingIcon from '@mui/icons-material/EmergencyRecording';
+import VaccinesOutlinedIcon from '@mui/icons-material/VaccinesOutlined';
+import MasksOutlinedIcon from '@mui/icons-material/MasksOutlined';
+import HealingOutlinedIcon from '@mui/icons-material/HealingOutlined';
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 import GeographyChart from "../../components/GeographyChart";
@@ -56,11 +56,11 @@ const Dashboard = () => {
         >
           <StatBox
             title="12,361"
-            subtitle="Emails Sent"
+            subtitle="응급실 가용 병상"
             progress="0.75"
             increase="+14%"
             icon={
-              <EmailIcon
+              <EmergencyRecordingIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -75,11 +75,11 @@ const Dashboard = () => {
         >
           <StatBox
             title="431,225"
-            subtitle="Sales Obtained"
+            subtitle="수술실 가용"
             progress="0.50"
             increase="+21%"
             icon={
-              <PointOfSaleIcon
+              <VaccinesOutlinedIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -94,11 +94,11 @@ const Dashboard = () => {
         >
           <StatBox
             title="32,441"
-            subtitle="New Clients"
+            subtitle="중환자 가용"
             progress="0.30"
             increase="+5%"
             icon={
-              <PersonAddIcon
+              <MasksOutlinedIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -113,11 +113,11 @@ const Dashboard = () => {
         >
           <StatBox
             title="1,325,134"
-            subtitle="Traffic Received"
+            subtitle="입원실 가용"
             progress="0.80"
             increase="+43%"
             icon={
-              <TrafficIcon
+              <HealingOutlinedIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -180,7 +180,7 @@ const Dashboard = () => {
             p="15px"
           >
             <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-              Recent Transactions
+              의료장비 상태
             </Typography>
           </Box>
           {mockTransactions.map((transaction, i) => (
@@ -210,7 +210,7 @@ const Dashboard = () => {
                 p="5px 10px"
                 borderRadius="4px"
               >
-                ${transaction.cost}
+                {transaction.cost}
               </Box>
             </Box>
           ))}
@@ -224,7 +224,7 @@ const Dashboard = () => {
           p="30px"
         >
           <Typography variant="h5" fontWeight="600">
-            Campaign
+            예측 분석(앞으로의 입원률)
           </Typography>
           <Box
             display="flex"
@@ -253,7 +253,7 @@ const Dashboard = () => {
             fontWeight="600"
             sx={{ padding: "30px 30px 0 30px" }}
           >
-            Sales Quantity
+            중환자 별(신생, 신경, 흉부, 일반)
           </Typography>
           <Box height="250px" mt="-20px">
             <BarChart isDashboard={true} />
@@ -270,7 +270,7 @@ const Dashboard = () => {
             fontWeight="600"
             sx={{ marginBottom: "15px" }}
           >
-            Geography Based Traffic
+            알림 (공지사항, 채팅, 알람 등)
           </Typography>
           <Box height="200px">
             <GeographyChart isDashboard={true} />

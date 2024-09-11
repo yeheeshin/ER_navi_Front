@@ -268,10 +268,10 @@ export const mockDataInvoices = [
 
 export const mockTransactions = [
   {
-    txId: "01e4dsa",
+    txId: "CT",
     user: "johndoe",
     date: "2021-09-01",
-    cost: "43.95",
+    cost: "사용가능",
   },
   {
     txId: "0315dsaa",
