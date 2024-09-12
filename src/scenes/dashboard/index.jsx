@@ -13,9 +13,21 @@ import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 
+import { Close } from "@mui/icons-material";
+import {useState} from "react"; // 닫기 버튼 아이콘
+
+
+
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [notifications, setNotifications] = useState(mockTransactions1);
+
+  // 알림 삭제 함수
+  const handleDeleteNotification = (txId) => {
+    setNotifications((prev) => prev.filter((notification) => notification.txId !== txId));
+  };
 
   return (
     <Box m="20px">
@@ -143,7 +155,7 @@ const Dashboard = () => {
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Revenue Generated
+                병상 가동률 변화 / 중환자, 일반
               </Typography>
               <Typography
                 variant="h3"
@@ -259,26 +271,79 @@ const Dashboard = () => {
             <BarChart isDashboard={true} />
           </Box>
         </Box>
+
         <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-          padding="30px"
+            gridColumn="span 4"
+            gridRow="span 2"
+            backgroundColor={colors.primary[400]}
+            overflow="auto"
         >
-          <Typography
-            variant="h5"
-            fontWeight="600"
-            sx={{ marginBottom: "15px" }}
+          <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              borderBottom={`4px solid ${colors.primary[500]}`}
+              colors={colors.grey[100]}
+              p="15px"
           >
-            알림 (공지사항, 채팅, 알람 등)
-          </Typography>
-          <Box height="200px">
-            <GeographyChart isDashboard={true} />
+            <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+              알림 (공지사항, 채팅, 알람 등)
+            </Typography>
           </Box>
+
+          {/* 알림 목록 렌더링 */}
+          {notifications.map((transaction, i) => (
+              <Box
+                  key={`${transaction.txId}-${i}`}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  borderBottom={`4px solid ${colors.primary[500]}`}
+                  p="15px"
+              >
+                <Box>
+                  <Typography
+                      color={colors.greenAccent[500]}
+                      variant="h5"
+                      fontWeight="600"
+                  >
+                    {transaction.txId}
+                  </Typography>
+                  <Typography color={colors.grey[100]}>
+                    {transaction.user}
+                  </Typography>
+                </Box>
+                <Box color={colors.grey[100]}>{transaction.date}</Box>
+                <Box
+                    backgroundColor={colors.greenAccent[500]}
+                    p="5px 10px"
+                    borderRadius="4px"
+                >
+                  {transaction.cost}
+                </Box>
+
+                {/* x 버튼 (알림 삭제 버튼) */}
+                <IconButton
+                    onClick={() => handleDeleteNotification(transaction.txId)}
+                    color="inherit"
+                >
+                  <Close style={{ color: colors.grey[100] }} />
+                </IconButton>
+              </Box>
+          ))}
         </Box>
+
+
       </Box>
     </Box>
   );
 };
+
+// mock 데이터 예시
+const mockTransactions1 = [
+  { txId: "TX001", user: "김철수", date: "2024-09-01", cost: "100,000" },
+  { txId: "TX002", user: "박영희", date: "2024-09-02", cost: "200,000" },
+  // 추가 데이터...
+];
 
 export default Dashboard;
