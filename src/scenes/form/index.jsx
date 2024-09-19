@@ -3,6 +3,8 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
+import { Select, MenuItem, FormHelperText } from "@mui/material";
+
 
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -13,7 +15,7 @@ const Form = () => {
 
   return (
     <Box m="20px">
-      <Header title="CREATE USER" subtitle="Create a New User Profile" />
+      <Header title="공지사항(알림)" subtitle="알림(공지사항) 등록" />
 
       <Formik
         onSubmit={handleFormSubmit}
@@ -41,16 +43,16 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="First Name"
+                label="Title"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.firstName}
                 name="firstName"
                 error={!!touched.firstName && !!errors.firstName}
                 helperText={touched.firstName && errors.firstName}
-                sx={{ gridColumn: "span 2" }}
+                sx={{ gridColumn: "span 3" }}
               />
-              <TextField
+              {/*<TextField
                 fullWidth
                 variant="filled"
                 type="text"
@@ -62,63 +64,45 @@ const Form = () => {
                 error={!!touched.lastName && !!errors.lastName}
                 helperText={touched.lastName && errors.lastName}
                 sx={{ gridColumn: "span 2" }}
-              />
+              />*/}
+
+              <Select
+                  fullWidth
+                  name="contact"
+                  value={values.contact}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+              >
+                <MenuItem value="1234567890">응급</MenuItem>
+                <MenuItem value="0987654321">중급</MenuItem>
+                <MenuItem value="1122334455">알림</MenuItem>
+                <MenuItem value="1122334455">공지사항(관리자만 가능)</MenuItem>
+              </Select>
+              {touched.contact && errors.contact && (
+                  <FormHelperText>{errors.contact}</FormHelperText>
+              )}
+
               <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Email"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
-                name="email"
-                error={!!touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
-                sx={{ gridColumn: "span 4" }}
+                  fullWidth
+                  variant="filled"
+                  type="text"
+                  label="Content"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.address2}
+                  name="address2"
+                  error={!!touched.address2 && !!errors.address2}
+                  helperText={touched.address2 && errors.address2}
+                  sx={{ gridColumn: "span 4" }}
+                  multiline
+                  rows={4}  // 기본적으로 4줄의 높이로 설정
               />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Contact Number"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.contact}
-                name="contact"
-                error={!!touched.contact && !!errors.contact}
-                helperText={touched.contact && errors.contact}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 1"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address1}
-                name="address1"
-                error={!!touched.address1 && !!errors.address1}
-                helperText={touched.address1 && errors.address1}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 2"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address2}
-                name="address2"
-                error={!!touched.address2 && !!errors.address2}
-                helperText={touched.address2 && errors.address2}
-                sx={{ gridColumn: "span 4" }}
-              />
+
+
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
-                Create New User
+                알림 등록
               </Button>
             </Box>
           </form>
