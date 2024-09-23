@@ -6,7 +6,14 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
-const Contacts = () => {
+import { useNavigate } from 'react-router-dom';
+const Transfer = () => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate('/transferDe'); // 이동하고 싶은 경로
+    };
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [
@@ -78,6 +85,9 @@ const Contacts = () => {
                 title="전원 요청 목록"
                 subtitle="전원 요청"
             />
+            <div onClick={handleClick} style={{ cursor: 'pointer' }}>
+                <p>Click me to go to the target page!</p>
+            </div>
             <Box
                 m="40px 0 0 0"
                 height="75vh"
@@ -115,4 +125,4 @@ const Contacts = () => {
     );
 };
 
-export default Contacts;
+export default Transfer;

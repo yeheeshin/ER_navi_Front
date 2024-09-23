@@ -119,7 +119,7 @@ const Sidebar = () => {
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Dashboard"
+              title="대시보드"
               to="/"
               icon={<HomeOutlinedIcon />}
               selected={selected}
@@ -141,14 +141,14 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Contacts Information"
+              title="전원 요청 목록"
               to="/contacts"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Invoices Balances"
+              title="알림"
               to="/invoices"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
@@ -220,7 +220,7 @@ const Sidebar = () => {
             {/*  setSelected={setSelected}*/}
             {/*/>*/}
             <Item
-                title="Chat"
+                title="채팅"
                 to="/chat"
                 icon={<ChatIcon />}
                 selected={selected}
