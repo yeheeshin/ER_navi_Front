@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
@@ -17,19 +17,22 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
 import TransferDe from "./scenes/transfer/detail";
+import SignIn from "./scenes/signIn/SignIn";
 
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
+  const location = useLocation();  // 현재 경로를 가져옴
+
 
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          <Sidebar isSidebar={isSidebar} />
+          {location.pathname !== "/signIn" && <Sidebar isSidebar={isSidebar} />}
           <main className="content">
-            <Topbar setIsSidebar={setIsSidebar} />
+            {location.pathname !== "/signIn" && <Topbar setIsSidebar={setIsSidebar} />}
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
@@ -44,6 +47,7 @@ function App() {
               <Route path="/geography" element={<Geography />} />
               <Route path="/chat" element={<Chat />} />
               <Route path="/transferDe" element={<TransferDe />} />
+              <Route path="/signIn" element={<SignIn />} />
             </Routes>
           </main>
         </div>
