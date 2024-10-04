@@ -18,6 +18,7 @@ import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
 import TransferDe from "./scenes/transfer/detail";
 import SignIn from "./scenes/signIn/SignIn";
+import SignUp from "./scenes/signup/SignUp";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -30,9 +31,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          {location.pathname !== "/signIn" && <Sidebar isSidebar={isSidebar} />}
+          {location.pathname !== "/signIn" && location.pathname !== "/signUp" && <Sidebar isSidebar={isSidebar} />}
           <main className="content">
-            {location.pathname !== "/signIn" && <Topbar setIsSidebar={setIsSidebar} />}
+            {location.pathname !== "/signIn" && location.pathname !== "/signUp" && <Topbar setIsSidebar={setIsSidebar} />}
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
@@ -48,6 +49,7 @@ function App() {
               <Route path="/chat" element={<Chat />} />
               <Route path="/transferDe" element={<TransferDe />} />
               <Route path="/signIn" element={<SignIn />} />
+              <Route path="/signUp" element={<SignUp />} />
             </Routes>
           </main>
         </div>
