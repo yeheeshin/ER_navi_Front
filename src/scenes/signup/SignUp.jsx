@@ -223,7 +223,7 @@ export default function SignUp() {
                                 display="flex"
                                 backgroundColor="#f5f5f5"
                                 borderRadius="10px"
-                                onClick={handleClick}
+
                             >
                                 <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
                                 <IconButton type="button" sx={{ p: 1 }}>

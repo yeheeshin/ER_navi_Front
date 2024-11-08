@@ -226,6 +226,21 @@ const Sidebar = () => {
                 selected={selected}
                 setSelected={setSelected}
             />
+
+              <Item
+                  title="로그인"
+                  to="/signIn"
+                  icon={<ChatIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+              />
+              <Item
+                  title="회원가입"
+                  to="/signUp"
+                  icon={<ChatIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+              />
           </Box>
         </Menu>
       </ProSidebar>
