@@ -15,10 +15,14 @@ import MuiCard from '@mui/material/Card';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import getSignUpTheme from './getSignUpTheme';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
-import { IconButton, MenuItem, Select } from "@mui/material";
+import {IconButton, MenuItem, Modal, Select} from "@mui/material";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from 'react-router-dom';
+import {useEffect, useState} from "react";
+import Autocomplete from '@mui/material/Autocomplete';
+import axios from "axios";
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -124,6 +128,39 @@ export default function SignUp() {
         });
     };
 
+    // modal 함수, 변수 등
+    const [hosOpen, setHosOpen] = useState(false);
+    const handleOpen = () => setHosOpen(true);
+    const handleClose = () => setHosOpen(false);
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+
+    const [hospitalList, setHospitalList] = useState([]);
+
+    useEffect(() => {
+        // 병원 이름 리스트를 가져오는 API 호출
+        axios.get('/all_hosName') // 병원 이름만 포함된 리스트 예: ["병원1", "병원2", ...]
+            .then((response) => {
+                setHospitalList(response.data); // 병원 이름 배열을 그대로 설정
+            })
+            .catch((error) => {
+                console.error('Error fetching hospital list:', error);
+            });
+    }, []);
+
+    const [selectedHospital, setSelectedHospital] = useState('선택한_병원'); // 선택된 병원 이름 상태
+
+
     return (
         <ThemeProvider theme={showCustomTheme ? SignUpTheme : defaultTheme}>
             <CssBaseline />
@@ -219,16 +256,38 @@ export default function SignUp() {
                         </FormControl>
                         <FormControl>
                             <FormLabel htmlFor="position">Hospital</FormLabel>
-                            <Box
-                                display="flex"
-                                backgroundColor="#f5f5f5"
-                                borderRadius="10px"
+                            <Box display="flex" alignItems="center">
+                                <FormLabel htmlFor="position" sx={{ width: '50%' }}> {selectedHospital} </FormLabel>
+                                <Button
+                                    variant="outlined"
+                                    onClick={handleOpen}
+                                    sx={{
+                                        width: '50%'
+                                    }}
+                                >
+                                    병원 검색
+                                </Button>
+                                <Modal
+                                    open={hosOpen}
+                                    onClose={handleClose}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                    >
+                                    <Box sx={style}>
+                                        <FormLabel>병원 검색</FormLabel>
+                                        <Autocomplete
+                                            disablePortal
+                                            options={hospitalList}
+                                            sx={{ width: 300 }}
+                                            onChange={(event, newValue) => {
+                                                setSelectedHospital(newValue); // 선택된 병원 이름 설정
+                                                handleClose(); // 선택 후 모달 닫기
+                                            }}
+                                            renderInput={(params) => <TextField {...params} label="Hospital" />}
+                                        />
 
-                            >
-                                <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-                                <IconButton type="button" sx={{ p: 1 }}>
-                                    <SearchIcon />
-                                </IconButton>
+                                    </Box>
+                                </Modal>
                             </Box>
                         </FormControl>
                         <FormControlLabel
