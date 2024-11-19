@@ -13,6 +13,8 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -68,40 +70,30 @@ export default function SignIn(props) {
         setOpen(false);
     };
 
-    const handleSubmit = (event) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };
 
-    const validateInputs = () => {
-        const email = document.getElementById('email');
-        const password = document.getElementById('password');
+        const email = data.get('email');
+        const password = data.get('password');
 
-        let isValid = true;
+        try {
+            const response = await axios.post('/login', {
+                email,
+                password
+            });
 
-        if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-            setEmailError(true);
-            setEmailErrorMessage('Please enter a valid email address.');
-            isValid = false;
-        } else {
-            setEmailError(false);
-            setEmailErrorMessage('');
+            alert(response.data);
+
+            navigate('/');
+
+        } catch(error) {
+            alert('아이디 및 비밀번호를 확인해주세요.');
+            navigate('/signIn');
         }
 
-        if (!password.value || password.value.length < 6) {
-            setPasswordError(true);
-            setPasswordErrorMessage('Password must be at least 6 characters long.');
-            isValid = false;
-        } else {
-            setPasswordError(false);
-            setPasswordErrorMessage('');
-        }
-
-        return isValid;
     };
 
     return (
@@ -179,7 +171,6 @@ export default function SignIn(props) {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            onClick={validateInputs}
                         >
                             Sign in
                         </Button>
