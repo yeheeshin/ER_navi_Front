@@ -85,9 +85,13 @@ export default function SignIn(props) {
                 password
             });
 
-            alert(response.data);
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
 
-            navigate('/');
+                alert(response.data);
+                navigate('/');
+            }
 
         } catch(error) {
             alert('아이디 및 비밀번호를 확인해주세요.');
