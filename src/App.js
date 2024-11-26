@@ -19,6 +19,7 @@ import Calendar from "./scenes/calendar/calendar";
 import TransferDe from "./scenes/transfer/detail";
 import SignIn from "./scenes/signIn/SignIn";
 import SignUp from "./scenes/signup/SignUp";
+import Test from "./scenes/test";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -50,6 +51,7 @@ function App() {
               <Route path="/transferDe" element={<TransferDe />} />
               <Route path="/signIn" element={<SignIn />} />
               <Route path="/signUp" element={<SignUp />} />
+              <Route path="/test" element={<Test />} />
             </Routes>
           </main>
         </div>

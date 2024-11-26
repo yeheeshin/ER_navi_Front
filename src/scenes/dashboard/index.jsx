@@ -8,13 +8,13 @@ import MasksOutlinedIcon from '@mui/icons-material/MasksOutlined';
 import HealingOutlinedIcon from '@mui/icons-material/HealingOutlined';
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
-import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 
 import { Close } from "@mui/icons-material";
-import {useState} from "react"; // 닫기 버튼 아이콘
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 
 
@@ -28,6 +28,19 @@ const Dashboard = () => {
   const handleDeleteNotification = (txId) => {
     setNotifications((prev) => prev.filter((notification) => notification.txId !== txId));
   };
+
+  const [stats, setStats] = useState([]);
+
+  // 백엔드 데이터 호출
+  useEffect(() => {
+    axios.get('/exDash')
+        .then(response => {
+          setStats(response.data); // 응답 데이터를 상태에 저장
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+  }, []);
 
   return (
     <Box m="20px">
@@ -66,17 +79,31 @@ const Dashboard = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <StatBox
-            title="12,361"
-            subtitle="응급실 가용 병상"
-            progress="0.75"
-            increase="+14%"
-            icon={
-              <EmergencyRecordingIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+
+          {stats[1] && stats[1].totalcount ? (
+              <StatBox // 1
+                  title={stats[1].totalcount}
+                  subtitle="응급실 가용 병상"
+                  progress={(stats[1].totalcount / stats[1].totalavunit).toFixed(2)}
+                  increase={((stats[1].totalcount / stats[1].totalavunit)*100).toFixed(2) + '%'}
+                  icon={
+                    <EmergencyRecordingIcon
+                        sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                    />
+                  }
               />
-            }
-          />
+          ) : <StatBox
+              title="정보 제공 X"
+              subtitle="응급실 가용 병상"
+              progress="0"
+              increase="0%"
+              icon={
+                <EmergencyRecordingIcon
+                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                />
+              }
+          />}
+
         </Box>
         <Box
           gridColumn="span 3"
@@ -85,17 +112,31 @@ const Dashboard = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <StatBox
-            title="431,225"
-            subtitle="수술실 가용"
-            progress="0.50"
-            increase="+21%"
-            icon={
-              <VaccinesOutlinedIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+
+          {stats[0] && stats[0].totalcount ? (
+              <StatBox
+                  title={stats[0].totalcount}
+                  subtitle="수술시 가용"
+                  progress={(stats[0].totalavunit / stats[0].totalcount).toFixed(2)}
+                  increase={((stats[0].totalavunit / stats[0].totalcount)*100).toFixed(2) + '%'}
+                  icon={
+                    <VaccinesOutlinedIcon
+                        sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                    />
+                  }
               />
-            }
-          />
+          ) : <StatBox
+              title="정보 제공 X"
+              subtitle="수술시 가용"
+              progress="0"
+              increase="0%"
+              icon={
+                <EmergencyRecordingIcon
+                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                />
+              }
+          />}
+
         </Box>
         <Box
           gridColumn="span 3"
@@ -104,18 +145,32 @@ const Dashboard = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <StatBox
-            title="32,441"
-            subtitle="중환자 가용"
-            progress="0.30"
-            increase="+5%"
-            icon={
-              <MasksOutlinedIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+
+          {stats[4] && stats[4].totalcount ? (
+              <StatBox // 1
+                  title="12,361"
+                  subtitle="중환자 가용"
+                  progress={(stats[4].totalavunit / stats[4].totalcount).toFixed(2)}
+                  increase={((stats[4].totalavunit / stats[4].totalcount)*100).toFixed(2) + '%'}
+                  icon={
+                    <MasksOutlinedIcon
+                        sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                    />
+                  }
               />
-            }
-          />
+          ) : <StatBox
+              title="정보 제공 X"
+              subtitle="중환자 가용"
+              progress="0"
+              increase="0%"
+              icon={
+                <EmergencyRecordingIcon
+                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                />
+              }
+          />}
         </Box>
+
         <Box
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
@@ -123,17 +178,29 @@ const Dashboard = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <StatBox
-            title="1,325,134"
-            subtitle="입원실 가용"
-            progress="0.80"
-            increase="+43%"
-            icon={
-              <HealingOutlinedIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+          {stats[2] && stats[2].totalcount ? (
+              <StatBox
+                  title="12,361"
+                  subtitle="입원실 가용"
+                  progress={(stats[2].totalavunit / stats[2].totalcount).toFixed(2)}
+                  increase={((stats[2].totalavunit / stats[2].totalcount)*100).toFixed(2) + '%'}
+                  icon={
+                    <HealingOutlinedIcon
+                        sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                    />
+                  }
               />
-            }
-          />
+          ) : <StatBox
+              title="정보 제공 X"
+              subtitle="입원실 가용"
+              progress="0"
+              increase="0%"
+              icon={
+                <EmergencyRecordingIcon
+                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                />
+              }
+          />}
         </Box>
 
         {/* ROW 2 */}
